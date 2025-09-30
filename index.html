@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>s4rah.com</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      p {
+        line-height: 1.6;
+      }
+
+      .container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #ffffff73;
+        border-bottom: 1px solid #ddd;
+        position: fixed;
+        width: 100%;
+        z-index: 1001;
+        height: 60px;
+      }
+
+      .intro-pfp {
+        width: 150px;
+        height: 150px;
+        margin-right: 10px;
+        border-radius: 50%;
+        object-fit: cover;
+        float: left;
+      }
+
+      .logo {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .menu-toggle {
+        font-size: 24px;
+        cursor: pointer;
+        display: none;
+      }
+
+      .sidebar {
+        width: 250px;
+        background-color: #fff;
+        padding: 20px 0;
+        position: fixed;
+        height: calc(100% - 60px);
+        top: 60px;
+        left: 0;
+        border-right: 1px solid #ddd;
+        transition: transform 0.3s ease;
+        z-index: 1000;
+        overflow-y: auto; /* Enable scrolling */
+      }
+
+      .sidebar.hidden {
+        transform: translateX(-100%);
+      }
+
+      .sidebar ul {
+        list-style: none;
+      }
+
+      .sidebar ul li {
+        padding: 10px 20px;
+        position: relative;
+      }
+
+      .sidebar ul li a {
+        text-decoration: none;
+        color: #333;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px 10px;
+      }
+
+      .sidebar ul li:hover > a {
+        color: #007bff;
+      }
+
+      .submenu {
+        display: none;
+        padding-left: 20px;
+      }
+
+      .sidebar ul li.active .submenu {
+        display: block;
+      }
+
+      .submenu li a {
+        font-size: 14px;
+        padding: 5px 10px;
+      }
+
+      .arrow {
+        transition: transform 0.3s;
+      }
+
+      .sidebar ul li.active .arrow {
+        transform: rotate(90deg);
+      }
+
+      .selected {
+        background-color: #4da8da;
+        color: #fff !important;
+        border-radius: 5px;
+        padding: 8px 15px;
+        display: block;
+      }
+
+      .contact-buttons {
+        padding: 0 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        max-width: 300px;
+      }
+
+      .contact-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+        text-decoration: none;
+        text-align: center;
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
+
+      .contact-button.email {
+        background-color: #ff008a;
+      }
+
+      .contact-button.telegram {
+        background-color: #00acb5;
+      }
+
+      .contact-button.form {
+        background-color: #8e00b5;
+      }
+
+      .contact-button:hover {
+        transform: scale(1.05);
+        color: black;
+      }
+
+      .content {
+        margin-left: 250px;
+        padding: 80px 20px 20px;
+        flex-grow: 1;
+        overflow-y: auto;
+        width: calc(100% - 250px);
+      }
+
+      .section {
+        margin-bottom: 40px;
+        padding: 40px 20px;
+      }
+
+      .gradient-text {
+        font-size: 5rem;
+        font-weight: 700;
+        background: linear-gradient(to right, #ff008a, #44f5fd);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 20px;
+      }
+
+      .intro-text {
+        color: #333;
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin-bottom: 30px;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 40px;
+      }
+
+      .portfolio-teaser {
+        max-width: 90%;
+        margin: 0;
+        padding: 60px 20px;
+        background: #ffffff;
+      }
+
+      .portfolio-header {
+        font-size: 5rem;
+        font-weight: 700;
+        background: linear-gradient(
+          to right,
+          #ff008a 0%,
+          #ff4d94 25%,
+          #44f5fd 75%,
+          #00c4cc 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      .work-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .work-item {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .work-item img {
+        height: 400px;
+        max-width: 800px;
+        object-fit: contain;
+        border-radius: 10px;
+      }
+
+      .work-description {
+        font-size: 1rem;
+        color: #333;
+        margin-top: 15px;
+        text-align: left;
+      }
+
+      .success-story {
+        background: #ffffff;
+      }
+
+      .success-header {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .success-text {
+        font-size: 1.1rem;
+        color: #444;
+        max-width: 600px;
+      }
+
+      .current-work-section {
+        background: #ffffff;
+      }
+
+      .current-work-text {
+        font-size: 1.2rem;
+        color: #333;
+        max-width: 600px;
+      }
+
+      .review-item {
+        background: #e0e0e0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease;
+        margin: 20px 0;
+        line-height: 1.6;
+      }
+
+      .review-item:hover {
+        transform: translateY(-5px) rotate(-2deg);
+      }
+      .review-text {
+        font-size: 1.1rem;
+        color: #333;
+
+        flex-grow: 1;
+      }
+
+      .review-author {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .review-pfp {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .review-name {
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .search-section {
+        background: #ffffff;
+      }
+
+      .search-header {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .search-content {
+        max-width: 600px;
+      }
+
+      .search-content p {
+        font-size: 1.1rem;
+        color: #444;
+        margin-bottom: 15px;
+      }
+
+      .offerings-section {
+        background: #ffffff;
+      }
+
+      .offerings-header {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .offerings-container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .offering-item {
+        background: #f6f6f6;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        max-width: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease;
+      }
+
+      .offering-item:hover {
+        transform: translateY(-5px);
+      }
+
+      .offering-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .offering-list {
+        font-size: 1.1rem;
+        color: #333;
+        flex-grow: 1;
+        padding-left: 0;
+      }
+
+      .offering-list p {
+        margin-bottom: 10px;
+      }
+
+      .service-section {
+        max-width: 90%;
+        margin: 0;
+        padding: 40px 20px;
+      }
+
+      .service-header {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 30px;
+      }
+
+      .service-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 15px;
+        margin-top: 30px;
+        text-align: left;
+      }
+
+      .service-description {
+        font-size: 1.1rem;
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .service-description p {
+        margin-bottom: 15px;
+      }
+
+      .qa-section {
+        background: #ffffff;
+      }
+
+      .qa-header {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .qa-container {
+        margin-top: 20px;
+      }
+
+      .qa-item {
+        background: #f0f0f0;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .qa-question {
+        width: 100%;
+        text-align: left;
+        padding: 15px 20px;
+        background: none;
+        border: none;
+        font-family: "Inter", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #333;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .qa-question::after {
+        content: "▼";
+        position: absolute;
+        right: 20px;
+        transition: transform 0.3s ease;
+      }
+
+      .qa-question.active::after {
+        transform: rotate(180deg);
+      }
+
+      .qa-answer {
+        display: none;
+        padding: 0 20px 15px;
+        font-size: 1rem;
+        color: #333;
+        text-align: left;
+      }
+
+      .qa-answer.active {
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+
+        .sidebar {
+          transform: translateX(-100%);
+          background-color: rgba(
+            255,
+            255,
+            255,
+            0.95
+          ); /* Semi-transparent background */
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+
+        .content {
+          margin-left: 0;
+          padding-top: 60px;
+        }
+
+        .gradient-text {
+          font-size: 3.5rem;
+        }
+
+        .intro-text,
+        .current-work-text,
+        .success-text,
+        .search-content p,
+        .service-description {
+          font-size: 1.1rem;
+        }
+
+        .work-item img {
+          height: 300px;
+        }
+
+        .review-item {
+          max-width: 100%;
+          min-height: 150px;
+        }
+
+        .service-section {
+          max-width: 90%;
+        }
+
+        .service-title {
+          font-size: 1.5rem;
+        }
+
+        .qa-question {
+          font-size: 1rem;
+        }
+
+        .qa-answer {
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .gradient-text {
+          font-size: 2.8rem;
+        }
+
+        .buttons {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .button {
+          width: 100%;
+          max-width: 200px;
+        }
+
+        .portfolio-header {
+          font-size: 2rem;
+        }
+
+        .work-item img {
+          height: 200px;
+        }
+
+        .work-description {
+          font-size: 0.9rem;
+        }
+
+        .offering-item {
+          width: 100%;
+          min-height: 250px;
+        }
+
+        .review-item {
+          max-width: 100%;
+          min-height: 150px;
+        }
+
+        .service-section {
+          padding: 20px 10px;
+        }
+
+        .service-title {
+          font-size: 1.3rem;
+        }
+
+        .service-description {
+          font-size: 0.9rem;
+        }
+
+        .qa-question {
+          font-size: 0.9rem;
+        }
+
+        .qa-answer {
+          font-size: 0.8rem;
+        }
+      }
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(-5deg);
+        }
+        50% {
+          transform: rotate(5deg);
+        }
+        100% {
+          transform: rotate(-5deg);
+        }
+      }
+    </style>
+  </head>
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {},
+      Tawk_LoadStart = new Date();
+    (function () {
+      var s1 = document.createElement("script"),
+        s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = "https://embed.tawk.to/68dbe2ad3eb9d419503172f9/1j6deqtve";
+      s1.charset = "UTF-8";
+      s1.setAttribute("crossorigin", "*");
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+  </script>
+  <!--End of Tawk.to Script-->
+  <body>
+    <div class="container">
+      <div class="top-nav">
+        <div class="logo">s4rah.com</div>
+        <div class="menu-toggle">☰</div>
+      </div>
+      <div class="sidebar">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li>
+            <a href="#services" class="parent"
+              >Services <span class="arrow">></span></a
+            >
+            <ul class="submenu">
+              <li><a href="#web-design">Web Design</a></li>
+              <li><a href="#branding">Branding</a></li>
+              <li><a href="#content-creation">Content Creation</a></li>
+              <li><a href="#seo-llm">SEO & LLM</a></li>
+              <li><a href="#automation">Automation</a></li>
+              <li><a href="#bookkeeping">Bookkeeping</a></li>
+              <li><a href="#gmb">GMB</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#business-tools" class="parent"
+              >Business Tools <span class="arrow">></span></a
+            >
+            <ul class="submenu">
+              <li><a href="#invoicing">Invoicing</a></li>
+              <li><a href="#expense-tracker">Expense Tracker</a></li>
+              <li><a href="#mileage">Mileage</a></li>
+              <li><a href="#employee-time-sheets">Employee Time Sheets</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#qa">Q&A</a></li>
+          <li><a href="#about">About</a></li>
+
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="contact-buttons">
+          <a
+            href="https://t.me/s4rah_dev"
+            target="_blank"
+            class="contact-button telegram"
+            >Chat Now on Telegram</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSeqfKSTfGMFB24xXzMTOx0bNyN73mAvoUBi9Y_2UydushkhNA/viewform?usp=header"
+            class="contact-button form"
+            >New Client Onboarding</a
+          >
+          <a href="mailto:hi@s4rah.com" class="contact-button email"
+            >Contact via Email</a
+          >
+        </div>
+      </div>
+      <main class="content">
+        <div class="header-section section" id="home">
+          <h1 class="gradient-text">
+            Rank Higher on LLM's & Search Engines with Design & SEO
+          </h1>
+          <p class="intro-text">
+            Boost your tech startup, construction business, or brand with
+            keyword-driven websites that dominate search results and LLM
+            rankings. Fast, effective designs tailored to your success.
+          </p>
+        </div>
+        <div class="review-item">
+          <p class="review-text">
+            "I never would have gotten my business off the ground without
+            (S4rah)!"
+          </p>
+          <div class="review-author">
+            <img src="images/reviews/evco.png" alt="Evan" class="review-pfp" />
+            <span class="review-name">EVCO MECH</span>
+          </div>
+        </div>
+
+        <div class="portfolio-teaser section" id="portfolio">
+          <h2 class="portfolio-header">Portfolio</h2>
+          <ul class="work-list">
+            <li class="work-item">
+              <img src="images/work/evcoBrand.jpg" alt="Plumbing branding" />
+              <p class="work-description">Plumbing Branding</p>
+            </li>
+            <li class="work-item">
+              <img src="images/work/evcoGROK.png" alt="LLM Driven Design" />
+              <p class="work-description">LLM Driven Design</p>
+            </li>
+            <li class="work-item">
+              <img
+                src="images/work/dashboard1.png"
+                alt="Tech Startup Dashboard"
+              />
+              <p class="work-description">Tech Startup UI Design</p>
+            </li>
+            <li class="work-item">
+              <img
+                src="images/work/plumbingwebsite.png"
+                alt="EVCO MECH website"
+              />
+              <p class="work-description">Construction Company Website</p>
+            </li>
+            <li class="work-item">
+              <img
+                src="images/work/dashboard2.png"
+                alt="Fintech startup dashboard"
+              />
+              <p class="work-description">Fintech Startup Dashboard</p>
+            </li>
+            <li class="work-item">
+              <img src="images/work/headers.png" alt="Various Headers" />
+              <p class="work-description">Various Headers</p>
+            </li>
+            <li class="work-item">
+              <img src="images/work/aiui.png" alt="Tech Startup UI Design" />
+              <p class="work-description">Tech Startup UI Design</p>
+            </li>
+            <li class="work-item">
+              <img src="images/work/Calendaro.png" alt="Calendar" />
+              <p class="work-description">Tech Startup UI Design</p>
+            </li>
+            <li class="work-item">
+              <img src="images/work/EVCOMECH.png" alt="EVCO business card" />
+              <p class="work-description">Construction Company Business Card</p>
+            </li>
+            <li class="work-item">
+              <img src="images/work/CoreValues.png" alt="Core Values" />
+              <p class="work-description">Value-Driven Branding</p>
+            </li>
+            <li class="work-item">
+              <img
+                src="images/work/FinancialDashboard.png"
+                alt="Financial Dashboard"
+              />
+              <p class="work-description">Financial Startup Dashboard</p>
+            </li>
+            <li class="work-item">
+              <img src="images/work/mobileDesign.png" alt="Mobile Design" />
+              <p class="work-description">Mobile App Design</p>
+            </li>
+            <li class="work-item">
+              <img src="images/work/socials.png" alt="Social Media Graphics" />
+              <p class="work-description">Social Media Graphics</p>
+            </li>
+          </ul>
+        </div>
+        <div class="review-item">
+          <p class="review-text">
+            "Sarah did a wonderful job making a landing page for me. She was
+            fast and responsive to all my questions. I would highly recommend
+            her."
+          </p>
+          <div class="review-author">
+            <img
+              src="images/reviews/griddlewithjohnny.png"
+              alt="Manny"
+              class="review-pfp"
+            />
+            <span class="review-name">Griddle with Johnny</span>
+          </div>
+        </div>
+
+        <div class="service-section" id="services">
+          <h2 class="portfolio-header">Services</h2>
+          <div class="service-header">
+            <h2 class="service-title" id="web-design">Web Design</h2>
+          </div>
+          <div class="service-description">
+            <p>
+              In this day and age anyone can build a website. The problem comes
+              when you want your website to actually do something. If you want
+              to gather leads it, your website needs to be so dialed in that it
+              beats out people paying money to be there. You need a website that
+              converts.
+            </p>
+            <p>
+              Our web design service creates stunning, user-friendly websites
+              optimized for performance and search engine visibility. We focus
+              on responsive designs that work seamlessly across devices,
+              ensuring your brand stands out.
+            </p>
+            <p>
+              From tech startups to construction businesses, we tailor each site
+              to your industry, incorporating strategic keywords and modern
+              UI/UX principles to drive engagement and conversions.
+            </p>
+          </div>
+
+          <div class="service-header">
+            <h2 class="service-title" id="branding">Branding</h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Branding sells your services to people's subconscious. It lends a
+              level of professionalism that weaves their way into people's
+              brains so that when they think “I need this service” the next
+              thing they immediately think of is you. This means building a
+              comprehensive brand identity based on logos, colour schemes, and
+              typography to reflect your business values and resonate with your
+              audience.
+            </p>
+            <p>
+              Our branding packages ensure consistency across all touchpoints,
+              from business cards to digital presence, establishing trust and
+              recognition.
+            </p>
+          </div>
+
+          <div class="service-header">
+            <h2 class="service-title" id="content-creation">
+              Content Creation
+            </h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Content creation can be exhausting. Let me take the load off while
+              keeping your audience engaged with high-quality content tailored
+              to your brand. I produce blog posts, social media graphics,
+              videos, and much more, designed to boost engagement and support
+              your strategy.
+            </p>
+            <p>
+              Our subscription plans (weekly, double, or daily) deliver
+              consistent content updates, ensuring your site remains fresh and
+              relevant, driving traffic and rankings.
+            </p>
+          </div>
+
+          <div class="service-header">
+            <h2 class="service-title" id="seo-llm">SEO & LLM</h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Dominate search engines and LLMs like Grok with our SEO and LLM
+              optimization services. We use strategic keywords, meta tags, and
+              competitor analysis to ensure your site ranks at the top.
+            </p>
+            <p>
+              Our proven strategies, as seen with EVCO MECH's top Google and
+              GROK rankings, drive organic traffic and enhance visibility across
+              platforms, giving you a competitive edge.
+            </p>
+          </div>
+
+          <div class="service-header">
+            <h2 class="service-title" id="automation">Automation</h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Streamline your business operations with our automation services.
+              We implement tools and workflows to automate repetitive tasks,
+              such as email marketing, social media posting, customer
+              follow-ups, and bookkeeping.
+            </p>
+            <p>
+              Save time and increase efficiency with custom automation solutions
+              tailored to your business needs, from startups to established
+              brands.
+            </p>
+          </div>
+
+          <div class="service-header">
+            <h2 class="service-title" id="bookkeeping">
+              Bookkeeping Consulting
+            </h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Keep your finances in check with our bookkeeping consulting
+              services. We provide expert guidance on organizing financial
+              records, managing expenses, and ensuring compliance.
+            </p>
+            <p>
+              Perfect for small businesses and startups, our consulting helps
+              you maintain accurate books, saving you time and reducing stress
+              during tax season.
+            </p>
+          </div>
+
+          <div class="service-header">
+            <h2 class="service-title" id="gmb">Google My Business</h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Let me tell you a secret that the other web developers won't tell
+              you: not all businesses need a website!
+            </p>
+            <p>*gasp* “But Sarah! You sell websites!” they say!</p>
+            <p>Yes, I am also a business owner, and have been for 15 years.</p>
+            <p>
+              The truth is, in today's age, driving traffic to your website is a
+              task in itself. Although the returns on investing time into your
+              website can be huge, the benefit to maximizing your GMB profile
+              can be substantial as well, especially in the short term. Dominate
+              your local presence with our Google My Business optimization
+              services. We enhance your GMB profile with accurate information,
+              engaging visuals, and regular updates to attract local customers.
+            </p>
+            <p>
+              Our strategies increase your visibility in local search results,
+              driving foot traffic and inquiries, perfect for businesses like
+              restaurants and construction companies.
+            </p>
+          </div>
+        </div>
+
+        <!-- Business Tools Section -->
+        <div class="service-section" id="business-tools">
+          <h2 class="portfolio-header">Business Tools</h2>
+          <div class="service-header">
+            <h2 class="service-title" id="invoicing">Invoicing</h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Simplify your billing process with custom invoicing tools. We
+              create professional, beautiful branded invoices that integrate
+              seamlessly with spreadsheets and your accounting software,
+              ensuring timely payments and organized records. We an also help
+              automate payment reminders, receipts, and job profitability
+              reports.
+            </p>
+            <p>
+              Perfect for freelancers, startups, and small businesses, our
+              solutions reduce manual work and improve cash flow management.
+            </p>
+          </div>
+
+          <div class="service-header">
+            <h2 class="service-title" id="expense-tracker">Expense Tracker</h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Stay on top of your finances with custom expense tracking tools.
+              Categorize expenses, monitor budgets, and generate reports to keep
+              your business financially healthy.
+            </p>
+            <p>
+              Ideal for construction companies and startups that have a lot of
+              loose receipts, our trackers integrate with bookkeeping systems
+              for seamless financial management.
+            </p>
+          </div>
+
+          <div class="service-header">
+            <h2 class="service-title" id="mileage">Mileage</h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Track business-related mileage effortlessly with our automated
+              mileage tracking tools. Log trips, calculate reimbursements, and
+              ensure tax compliance with user-friendly interfaces.
+            </p>
+            <p>
+              Designed for businesses on the move, like construction or delivery
+              services, to save time and maximize deductions.
+            </p>
+          </div>
+
+          <div class="service-header">
+            <h2 class="service-title" id="employee-time-sheets">
+              Employee Time Sheets
+            </h2>
+          </div>
+          <div class="service-description">
+            <p>
+              Manage employee hours with digital time sheet solutions. Track
+              work hours, overtime, and project allocations with tools that
+              integrate with payroll systems.
+            </p>
+            <p>
+              Perfect for construction firms and startups, our time sheets
+              streamline workforce management and ensure accurate payroll
+              processing.
+            </p>
+          </div>
+        </div>
+
+        <div class="offerings-section section" id="pricing">
+          <h2 class="portfolio-header">Subscription Plans</h2>
+          <div class="offerings-container">
+            <div class="offering-item">
+              <h3 class="offering-title">Content Daily</h3>
+              <div class="offering-list">
+                <p>✨ 5 days/week (~20-22/month) designs</p>
+                <p>🎯 Custom strategy sessions</p>
+                <p>🔧 Flexible platforms</p>
+                <p>📊 Live analytics</p>
+                <p>💰 $4,200/month (best value)</p>
+              </div>
+            </div>
+            <div class="offering-item">
+              <h3 class="offering-title">Content Double</h3>
+              <div class="offering-list">
+                <p>✨ 2 weekly designs</p>
+                <p>🔧 Two-platform support</p>
+                <p>📊 Monthly analytics</p>
+                <p>💰 $1986/month</p>
+              </div>
+            </div>
+            <div class="offering-item">
+              <h3 class="offering-title">Content Weekly</h3>
+              <div class="offering-list">
+                <p>✨ 1 weekly design</p>
+                <p>🔧 One platform (usually a blog)</p>
+                <p>📈 SEO optimization</p>
+                <p>💰 $997/month (minimum investment)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="search-section section">
+          <div class="review-item">
+            <p class="review-text">
+              "Sarah is amazing! She is such a caring person and her work always
+              exceeds my expectations."
+            </p>
+            <div class="review-author">
+              <img
+                src="images/reviews/jenny.png"
+                alt="Jenny"
+                class="review-pfp"
+              />
+              <span class="review-name">Jenny</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-section section" id="qa">
+          <h2 class="qa-header">Actual Questions People Have Asked:</h2>
+          <div class="qa-container">
+            <div class="qa-item">
+              <button class="qa-question">
+                What platforms are you working with?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  I am flexible on platforms! I prefer custom code, but I am
+                  happy to work with WordPress, Wix, Shopify, and others.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">
+                Why is adding content regularly so important for my business?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  Adding fresh content regularly keeps your business website
+                  lively and valuable, drawing in customers and strengthening
+                  your brand. It builds trust by showing expertise, like a
+                  bakery sharing recipes that turn visitors into loyal fans. It
+                  also boosts your visibility on search engines, as they favor
+                  active sites, making it more likely for your pages to appear
+                  when people search for your products or services. More content
+                  means more chances to be found through searches or social
+                  shares, and it keeps past customers coming back with updates
+                  or promotions. For example, a coffee shop posting weekly
+                  brewing tips can attract locals, spark shares, and drive
+                  sales.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">
+                How does constant content boost my search rankings?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  Consistently adding quality content improves your search
+                  rankings by encouraging search engines to visit your site
+                  often, indexing more of your pages, and letting you target
+                  specific search terms. Fresh content signals relevance,
+                  especially for trending or local topics, and can earn links
+                  from other sites, boosting your authority. Engaging posts also
+                  keep visitors on your site longer, which search engines see as
+                  a sign of value. For instance, a travel agency's destination
+                  guides can rank for travel searches, attract links, and climb
+                  higher over time. Weekly updates rank 2x higher, and daily
+                  updates can dominate.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">
+                Why should I choose you to manage my content?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  I've been doing this for a long time have have some solid SEO
+                  and social media growth wins to back it up. With my
+                  experience, I craft tailored pages, socials, or apps that
+                  drive results.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">
+                What’s included in your content subscription?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  The subscriptions (Weekly, Double, Daily) include tailored
+                  content like blog posts, social media graphics, and videos,
+                  plus SEO optimization and analytics. This means that a
+                  strategy will be put in place to ensure a consistent flow of
+                  content, where web supports social and social boosts your
+                  website. Daily plans offer advanced SEO and ongoing priority
+                  support.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">
+                How soon will I see results from this content?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  Results depend on your site's age, competition, and content
+                  quality. New or low-authority sites might see small traffic
+                  boosts within a few months, especially for niche topics, but
+                  significant rankings often take six to twelve months.
+                  Established sites can see gains faster, sometimes in one to
+                  three months. High-quality, optimized content and promotion
+                  through social media or newsletters speed things up. EVCO was
+                  ranking first on Google in about 5 months after launch with
+                  very targeted keywords and high-quality and consistent
+                  content.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">
+                Can I include social media content?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  Yes, content creation service includes social media graphics,
+                  posts, and videos tailored to your brand, designed to boost
+                  engagement across platforms. Daily clients benefit from 1:1
+                  training on all social platforms.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">
+                Is the daily update plan worth $4,200?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  Absolutely! The Daily plan offers ~20-22 designs monthly,
+                  advanced SEO, priority support, and custom strategies, making
+                  it ideal for businesses aiming to dominate rankings quickly.
+                  It is also by far the best value considering that an in house
+                  designer would cost more than double.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">
+                Can I stop or adjust the subscription? Will I get a refund?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  Yes, the subscriptions are flexible. You can pause, upgrade,
+                  downgrade, or cancel anytime, ensuring it fits your business
+                  needs. However, due to the creative nature of our services, no
+                  refunds will be issued.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">
+                Will we have to have lots of meetings?
+              </button>
+              <div class="qa-answer">
+                <p>
+                  I don't have a "no meetings" rule, but I do have a "no wasting
+                  anybody's time" rule. This means I rarely schedule meetings
+                  and prefer to work asynchronously. However, if you need to
+                  meet with me, please let me know, I am happy to chat when
+                  needed.
+                </p>
+              </div>
+            </div>
+
+            <div class="qa-item">
+              <button class="qa-question">Are there any other fees?</button>
+              <div class="qa-answer">
+                <p>
+                  I don't charge you anything else personally, but if you need a
+                  domain, web hosting, paid WordPress plugins, product printing
+                  such as business cards or brochures, employee uniform
+                  printing, ads via Google or Facebook etc, or anything else
+                  like that, it is your responsibility to pay for it. My design
+                  subscription services cover labour only.
+                </p>
+              </div>
+            </div>
+            <div class="qa-item">
+              <button class="qa-question">How will I get my stuff?</button>
+              <div class="qa-answer">
+                <p>
+                  Subscription clients receive a custom client dashboard where
+                  you can access your content, analytics, and updates. This is a
+                  working document that you can use to add design requests, give
+                  feedback, track progress on bigger projects, and more.
+                </p>
+              </div>
+            </div>
+
+            <div class="qa-item">
+              <button class="qa-question">Can I just hire you one time?</button>
+              <div class="qa-answer">
+                <p>
+                  For sure! But my minimum investment is $997. That does not
+                  have to be used all at once, but within 12 months.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="section about-section" id="about">
+          <h2 class="gradient-text">Hi, I'm Sarah</h2>
+          <img class="intro-pfp" src="images/profile-pic.jpg" alt="Sarah" />
+          <p class="intro-text">
+            I am an entrepreneur, designer, developer, and SEO fan girl
+            dedicated to helping tech startups, construction businesses, and
+            other brands achieve their full potential online. Having built my
+            first website in 2002 I have decades of experience and in web
+            design, branding, and digital marketing.
+          </p>
+          <p class="intro-text">
+            I love to combine creativity with data-driven strategies to deliver
+            results that rank high on search engines and LLMs like ChatGPT/Grok,
+            and ultimtately help my clients succeed.
+          </p>
+          <p class="intro-text">
+            My mission is to empower businesses in niche markets with tailored,
+            high-impact solutions — whether it's a stunning website, a cohesive
+            brand identity, automated tools to streamline operations, or a
+            combination of things, I am keen to find a solution that is
+            genuinely helpful to you.
+          </p>
+        </div>
+
+        <div class="section" id="contact">
+          <h2 class="gradient-text">Get in Touch</h2>
+          <p class="intro-text">
+            Ready to boost your online presence? Fill out the form below to get
+            started today!!
+          </p>
+
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSeqfKSTfGMFB24xXzMTOx0bNyN73mAvoUBi9Y_2UydushkhNA/viewform?embedded=true"
+            width="640"
+            height="1600"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            >Loading…</iframe
+          >
+        </div>
+
+        <div class="contact-buttons">
+          <a
+            href="https://t.me/s4rah_dev"
+            target="_blank"
+            class="contact-button telegram"
+            >Chat Now on Telegram</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSeqfKSTfGMFB24xXzMTOx0bNyN73mAvoUBi9Y_2UydushkhNA/viewform?usp=header"
+            class="contact-button form"
+            >New Client Onboarding</a
+          >
+          <a href="mailto:hi@s4rah.com" class="contact-button email"
+            >Contact via Email</a
+          >
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const menuToggle = document.querySelector(".menu-toggle");
+      const sidebar = document.querySelector(".sidebar");
+      const parentLinks = document.querySelectorAll(".parent");
+
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("active");
+      });
+
+      parentLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const submenu = link.nextElementSibling;
+          const arrow = link.querySelector(".arrow");
+          const isActive = link.parentElement.classList.contains("active");
+
+          if (isActive) {
+            submenu.style.display = "none";
+            arrow.style.transform = "rotate(0deg)";
+            link.parentElement.classList.remove("active");
+          } else {
+            submenu.style.display = "block";
+            arrow.style.transform = "rotate(90deg)";
+            link.parentElement.classList.add("active");
+          }
+        });
+      });
+
+      document.querySelectorAll(".qa-question").forEach((button) => {
+        button.addEventListener("click", () => {
+          const answer = button.nextElementSibling;
+          const isActive = answer.classList.contains("active");
+
+          document
+            .querySelectorAll(".qa-answer")
+            .forEach((ans) => ans.classList.remove("active"));
+          document
+            .querySelectorAll(".qa-question")
+            .forEach((q) => q.classList.remove("active"));
+
+          if (!isActive) {
+            answer.classList.add("active");
+            button.classList.add("active");
+          }
+        });
+      });
+
+      function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        const topNavHeight = 60;
+        const offsetTop =
+          section.getBoundingClientRect().top + window.scrollY - topNavHeight;
+        window.scrollTo({ top: offsetTop, behavior: "smooth" });
+      }
+    </script>
+  </body>
+</html>
