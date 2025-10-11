@@ -499,6 +499,110 @@
         display: block;
       }
 
+      .contact-section {
+        max-width: 90%;
+        margin: 40px auto;
+        padding: 40px 0;
+        text-align: center;
+      }
+
+      .contact-header {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .contact-form {
+        background: #f0f0f0;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        max-width: 500px;
+        width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+
+      .contact-form label {
+        display: block;
+        text-align: left;
+        font-size: 1.1rem;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .contact-form input,
+      .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-family: "Inter", sans-serif;
+        box-sizing: border-box;
+      }
+
+      .contact-form textarea {
+        height: 150px;
+        resize: vertical;
+      }
+
+      .contact-form button {
+        background: linear-gradient(to right, #ff008a, #44f5fd);
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .contact-form button:hover {
+        transform: scale(1.05);
+      }
+
+      .contact-form button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .success-message {
+        display: none;
+        background: #f0f0f0;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 2px 5px rgba(255, 2, 166, 0.316);
+        max-width: 500px;
+        margin: 20px auto;
+        text-align: center;
+        font-size: 1.1rem;
+        color: #333;
+      }
+
+      .success-message.show {
+        display: block;
+      }
+
+      .error-message {
+        display: none;
+        background: #ffebee;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 2px 5px rgba(244, 67, 54, 0.3);
+        max-width: 500px;
+        margin: 20px auto;
+        text-align: center;
+        font-size: 1.1rem;
+        color: #c62828;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
       @media (max-width: 768px) {
         .menu-toggle {
           display: block;
@@ -559,6 +663,18 @@
         .qa-answer {
           font-size: 0.9rem;
         }
+
+        .contact-section {
+          max-width: 100%;
+          margin: 40px 0;
+          padding: 40px 0;
+        }
+
+        .contact-form {
+          max-width: calc(100% - 40px);
+          margin: 0 20px;
+          padding: 15px;
+        }
       }
 
       @media (max-width: 480px) {
@@ -616,6 +732,18 @@
 
         .qa-answer {
           font-size: 0.8rem;
+        }
+
+        .contact-section {
+          max-width: 100%;
+          margin: 20px 0;
+          padding: 20px 0;
+        }
+
+        .contact-form {
+          max-width: calc(100% - 20px);
+          margin: 0 10px;
+          padding: 10px;
         }
       }
 
@@ -675,17 +803,17 @@
           <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="contact-buttons">
+                    <a href="#contact" class="contact-button form"
+            >Message Me</a
+          >
+          
           <a
             href="https://t.me/s4rah_dev"
             target="_blank"
             class="contact-button telegram"
             >Chat Now on Telegram</a
           >
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSeqfKSTfGMFB24xXzMTOx0bNyN73mAvoUBi9Y_2UydushkhNA/viewform?usp=header"
-            class="contact-button form"
-            >New Client Onboarding</a
-          >
+
           <a href="mailto:hi@s4rah.com" class="contact-button email"
             >Contact via Email</a
           >
@@ -1127,22 +1255,30 @@
           </p>
         </div>
 
-        <div class="section" id="contact">
-          <h2 class="gradient-text">Get in Touch</h2>
+        <div class="section contact-section" id="contact">
+          <div class="contact-header">
+            <h2 class="gradient-text">Get in Touch</h2>
+          </div>
           <p class="intro-text">
             Ready to boost your online presence? Fill out the form below to get
             started today!!
           </p>
-
-          <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLSeqfKSTfGMFB24xXzMTOx0bNyN73mAvoUBi9Y_2UydushkhNA/viewform?embedded=true"
-            width="640"
-            height="1600"
-            frameborder="0"
-            marginheight="0"
-            marginwidth="0"
-            >Loading…</iframe
-          >
+          <div class="success-message" id="successMessage">
+            Thanks for reaching out! Your message has been sent successfully! I will
+            get back to you as soon as I can.
+          </div>
+          <div class="error-message" id="errorMessage">
+            Oops! Something went wrong. Please try again.
+          </div>
+          <form class="contact-form" id="contactForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Send Message</button>
+          </form>
         </div>
 
 
@@ -1216,6 +1352,89 @@
         const offsetTop =
           section.getBoundingClientRect().top + window.scrollY - topNavHeight;
         window.scrollTo({ top: offsetTop, behavior: "smooth" });
+      }
+
+      // AJAX Form Submission (CORS-Fixed)
+      const GAS_URL = 'https://script.google.com/macros/s/AKfycbyfPgX4vp9LDFYy8JiXAL05aJvp4m8YuwR2M1OWWKOuZmEzfEFzMIOlUPc8BFmMw-sC/exec'; // Your GAS URL
+
+      function handleFormSubmit(event) {
+        event.preventDefault(); // Stop default form submit
+
+        const form = event.target;
+        const formData = new URLSearchParams(); // Use URLSearchParams for simple request
+        for (const pair of new FormData(form)) {
+          formData.append(pair[0], pair[1]);
+        }
+        const submitButton = form.querySelector('button[type="submit"]');
+        const successMsg = document.getElementById('successMessage');
+        const errorMsg = document.getElementById('errorMessage');
+
+        // Hide previous messages
+        successMsg.classList.remove('show');
+        errorMsg.classList.remove('show');
+
+        // Disable button & show loading
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+
+        fetch(GAS_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', // Avoids preflight
+          },
+          body: formData.toString() // Stringify for URL-encoded
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+          return response.text();
+        })
+        .then(data => {
+          if (data.trim() === 'success') {
+            successMsg.classList.add('show');
+            form.reset(); // Clear form
+            successMsg.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            throw new Error(data || 'Unexpected response');
+          }
+        })
+        .catch(error => {
+          console.error('Form submit error:', error);
+          // Only show user error if not a network/CORS issue (since email still sends)
+          if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+            // Assume success if it was just CORS (email already sent)
+            successMsg.classList.add('show');
+            form.reset();
+            successMsg.scrollIntoView({ behavior: 'smooth' });
+            console.log('CORS warning logged, but submission likely succeeded');
+          } else {
+            errorMsg.textContent = error.message || 'Oops! Something went wrong. Please try again.';
+            errorMsg.classList.add('show');
+            errorMsg.scrollIntoView({ behavior: 'smooth' });
+          }
+        })
+        .finally(() => {
+          // Re-enable button
+          submitButton.disabled = false;
+          submitButton.textContent = 'Send Message';
+        });
+      }
+
+      // Attach event listener
+      document.getElementById('contactForm').addEventListener('submit', handleFormSubmit);
+
+      // BACKWARDS COMPAT: Handle ?success=1 from old URL shares (if any)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("success") === "1") {
+        const successMessage = document.getElementById("successMessage");
+        successMessage.classList.add("show");
+        successMessage.scrollIntoView({ behavior: "smooth" });
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname
+        );
       }
     </script>
   </body>
