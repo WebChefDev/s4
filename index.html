@@ -544,6 +544,19 @@
         box-sizing: border-box;
       }
 
+      /* New: Skill test input styling */
+      #skill {
+        margin-bottom: 15px;
+      }
+
+      /* Honeypot field - hidden from humans */
+      .honeypot {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+        pointer-events: none;
+      }
+
       .contact-form textarea {
         height: 150px;
         resize: vertical;
@@ -601,6 +614,11 @@
 
       .error-message.show {
         display: block;
+      }
+
+      /* Invalid input highlight */
+      input:invalid {
+        border-color: #c62828;
       }
 
       @media (max-width: 768px) {
@@ -1250,11 +1268,10 @@
 
         <div class="contact-section" id="contact">
           <div class="contact-header">
-            <h2 class="gradient-text">Get in Touch</h2>
+            <h2 class="gradient-text">Well, you made it to the bottom</h2>
           </div>
           <p class="intro-text">
-            Ready to boost your online presence? Fill out the form below to get
-            started today!!
+            Might as well reach out? You're clearly interested... 
           </p>
           <div class="success-message" id="successMessage">
             Thanks for reaching out! Your message has been sent successfully! I will
@@ -1270,6 +1287,15 @@
             <input type="email" id="email" name="email" required />
             <label for="message">Message</label>
             <textarea id="message" name="message" required></textarea>
+
+            <!-- Honeypot field (hidden from real users) -->
+            <label for="website" class="honeypot">Website (leave blank)</label>
+            <input type="text" id="website" name="website" class="honeypot" tabindex="-1" autocomplete="off" />
+
+            <!-- Randomized skill-testing question -->
+            <label for="skill" id="skillLabel">Skill Test: What is 7 + 5? (Answer with a number to prove you're human)</label>
+            <input type="text" id="skill" name="skill" required pattern="[0-9]+" autocomplete="off" />
+
             <button type="submit">Send Message</button>
           </form>
         </div>
@@ -1350,6 +1376,36 @@
       // AJAX Form Submission (CORS-Fixed)
       const GAS_URL = 'https://script.google.com/macros/s/AKfycbyfPgX4vp9LDFYy8JiXAL05aJvp4m8YuwR2M1OWWKOuZmEzfEFzMIOlUPc8BFmMw-sC/exec'; // Your GAS URL
 
+      // Global for randomized answer
+      let correctSkillAnswer = 12; // Default fallback
+
+      // Randomize skill question on load
+      window.addEventListener('DOMContentLoaded', () => {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        const operators = ['+', '-', '×'];
+        const opIndex = Math.floor(Math.random() * operators.length);
+        const operator = operators[opIndex];
+        let answer;
+        let questionText;
+
+        if (operator === '+') {
+          answer = num1 + num2;
+          questionText = `${num1} + ${num2}`;
+        } else if (operator === '-') {
+          // Ensure positive result
+          if (num1 < num2) [num1, num2] = [num2, num1];
+          answer = num1 - num2;
+          questionText = `${num1} - ${num2}`;
+        } else { // ×
+          answer = num1 * num2;
+          questionText = `${num1} × ${num2}`;
+        }
+
+        document.getElementById('skillLabel').textContent = `Skill Test: What is ${questionText}? (Number only to prove you're human)`;
+        correctSkillAnswer = answer;
+      });
+
       function handleFormSubmit(event) {
         event.preventDefault(); // Stop default form submit
 
@@ -1365,6 +1421,27 @@
         // Hide previous messages
         successMsg.classList.remove('show');
         errorMsg.classList.remove('show');
+
+        // Client-side checks
+        const skillInput = document.getElementById('skill').value.trim();
+        const honeypot = document.getElementById('website').value.trim();
+
+        if (honeypot !== '') {
+          // Bot filled honeypot - silent fail
+          errorMsg.textContent = 'Submission rejected. Please try again later.';
+          errorMsg.classList.add('show');
+          errorMsg.scrollIntoView({ behavior: 'smooth' });
+          submitButton.disabled = false;
+          submitButton.textContent = 'Send Message';
+          return;
+        }
+
+        if (parseInt(skillInput, 10) !== correctSkillAnswer) {
+          alert('Incorrect answer to the skill test. Please refresh the page and try again.');
+          submitButton.disabled = false;
+          submitButton.textContent = 'Send Message';
+          return;
+        }
 
         // Disable button & show loading
         submitButton.disabled = true;
@@ -1418,17 +1495,13 @@
       document.getElementById('contactForm').addEventListener('submit', handleFormSubmit);
 
       // BACKWARDS COMPAT: Handle ?success=1 from old URL shares (if any)
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get("success") === "1") {
-        const successMessage = document.getElementById("successMessage");
-        successMessage.classList.add("show");
-        successMessage.scrollIntoView({ behavior: "smooth" });
-        window.history.replaceState(
-          {},
-          document.title,
-          window.location.pathname
-        );
-      }
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get("success") === "1") {
+  const successMessage = document.getElementById("successMessage");
+  successMessage.classList.add("show");
+  successMessage.scrollIntoView({ behavior: "smooth" });  // ← fixed
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
     </script>
   </body>
 </html>
