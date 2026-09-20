@@ -19,6 +19,14 @@ p {
   min-height: 100vh;
 }
 
+.emoji-divider {
+  font-size: 8rem;
+  line-height: 1.2;
+  letter-spacing: 0.75rem;
+  margin: 3rem 0;
+  user-select: none;
+}
+
 .top-nav {
   display: flex;
   justify-content: space-between;
